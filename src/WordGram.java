@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A WordGram object represents an immutable
  * sequence of words.
@@ -5,6 +8,7 @@
  * Add yourself as an author when you make edits
  * @author Brandon Fain
  * @author Owen Astrachan, revised Fall 2023
+ * @author Frannie Goodman
  */
 
 public class WordGram {
@@ -22,10 +26,11 @@ public class WordGram {
 	 * @param size Number of elements in WordGram object
 	 */
 	public WordGram(String[] source, int start, int size) {
-		// TODO correctly implement constructor
 		myWords = new String[size];
-		for(int k=0; k < size; k++) {
-			myWords[k] = "hello";
+		myToString = "";
+		myHash = 0;
+		for (int k = 0; k < size; k++){
+			myWords[k] = source[start + k];
 		}
 	}
 
@@ -34,8 +39,7 @@ public class WordGram {
 	 * @return order of wordgram, number of words
 	 */
 	public int length() {
-		// TODO correctly implement length 
-		return 0;
+		return myWords.length;
 	}
 
 
@@ -49,8 +53,15 @@ public class WordGram {
 			return false;
 		}
 		WordGram other = (WordGram) o;
-		// TODO complete correct implementation of equals (above is correct)
-		return false;
+		if (other.myWords.length != this.myWords.length){
+			return false;
+		}
+		for (int k = 0; k < this.myWords.length; k++){
+			if (! (this.myWords[k]).equals(other.myWords[k])){
+				return false;
+			}
+	}
+	return true;
 	}
 
 
@@ -61,8 +72,12 @@ public class WordGram {
 	 */
 	@Override
 	public int hashCode() {
-		// TODO correctly implement hashCode
-		return 0;
+		if (myHash == 0){
+			for (int i = 0; i < this.toString().length(); i++){
+				myHash += (this.toString().charAt(i))*31^(length() - (i + 1));
+			}
+		}
+		return myHash;
 	}
 
 
@@ -75,11 +90,12 @@ public class WordGram {
 	 * @return new WordGram
 	 */
 	public WordGram shiftAdd(String last) {
-		// TODO correctly implement shiftAdd
-		WordGram wg = new WordGram(myWords, 0, length());
+		String[] myNewWords = new String[length()];
+		for (int k = 1; k < length(); k++) myNewWords[k-1] = myWords[k];
+		myNewWords[length() - 1] = last;
+		WordGram wg = new WordGram(myNewWords, 0, length());
 		return wg;
 	}
-
 
 	/**
 	 * Returns space separated words stored in the WordGram
@@ -87,7 +103,24 @@ public class WordGram {
 	 */
 	@Override
 	public String toString() {
-		// TODO correctly implement toString
-		return "";
+		if (myToString.equals("")){
+			for (int k = 0; k < myWords.length -1; k ++){
+				myToString += " " + this.myWords[k];
+			}
+			myToString += myWords[myWords.length -1];
+		}
+		return myToString;
 	}
+public static void main(String[] args) {
+	String[] words = "Computer science lecture is right now".split(" ");
+	 Set<Integer> set = new HashSet<Integer>();
+	 WordGram[] myGrams = new WordGram[3];
+	 myGrams[0] = new WordGram(words, 0, 5);
+	 myGrams[1] = new WordGram(words, 1, 4);
+	 myGrams[2] = new WordGram(words, 2, 3);
+	 for(WordGram w : myGrams) {
+            System.out.print(w.hashCode());
+			System.out.print(" ");
+        }
+}
 }
