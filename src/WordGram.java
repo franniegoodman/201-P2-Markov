@@ -111,7 +111,7 @@ public class WordGram {
 		}
 		return myToString;
 	}
-public static void main(String[] args) {
+/* 	public static void main(String[] args) {
 	String[] words = "Computer science lecture is right now".split(" ");
 	 Set<Integer> set = new HashSet<Integer>();
 	 WordGram[] myGrams = new WordGram[3];
@@ -123,4 +123,5 @@ public static void main(String[] args) {
 			System.out.print(" ");
         }
 }
+*/
 }
