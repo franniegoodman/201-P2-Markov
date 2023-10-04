@@ -103,25 +103,15 @@ public class WordGram {
 	 */
 	@Override
 	public String toString() {
-		if (myToString.equals("")){
-			for (int k = 0; k < myWords.length -1; k ++){
-				myToString += " " + this.myWords[k];
-			}
-			myToString += myWords[myWords.length -1];
+		if (myWords.length > 0 && myToString.equals("")){
+			myToString = String.join(" ", myWords);
 		}
+		String newString = "";
+		for (int i = 1; i<myToString.length(); i++){
+			newString += myToString.charAt(i);
+		}
+		myToString = newString;
 		return myToString;
 	}
-/* 	public static void main(String[] args) {
-	String[] words = "Computer science lecture is right now".split(" ");
-	 Set<Integer> set = new HashSet<Integer>();
-	 WordGram[] myGrams = new WordGram[3];
-	 myGrams[0] = new WordGram(words, 0, 5);
-	 myGrams[1] = new WordGram(words, 1, 4);
-	 myGrams[2] = new WordGram(words, 2, 3);
-	 for(WordGram w : myGrams) {
-            System.out.print(w.hashCode());
-			System.out.print(" ");
-        }
-}
-*/
+
 }
