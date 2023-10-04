@@ -36,8 +36,9 @@ public class HashMarkov implements MarkovInterface {
 
     @Override
     public List<String> getFollows(WordGram wgram) {
-        if (myMap.containsKey(wgram))
+        if (myMap.containsKey(wgram)){
             return myMap.get(wgram);
+        }
         return new ArrayList<String>();
     }
 

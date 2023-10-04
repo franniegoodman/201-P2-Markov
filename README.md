@@ -198,10 +198,18 @@ What is the asymptotic (big O) runtime complexity of each of the methods: `setTr
 - *Theory*. Explain why you expect `setTraining()` and `getRandomText()` for `BaseMarkov` to have the stated runtime complexity by referencing the algorithms/data structures/code used. Explain the complexity of each operation/method, accounting for any looping, in the code. You may assume that `nextInt` is a constant time operation to generate a random number and `split()` has runtime complexity $`O(T)`$ when called on the training text.
 - *Experiment*. Run the main method of `MarkovDriver` with *at least* 3 different data files of varying sizes $`T`$ (it is fine to use `alice.txt` for one of them). For each, run the main method with *at least* 3 different values of `TEXT_SIZE` (which corresponds to $`N`$). So you should have a total of at least 9 data points; use these to fill out a table like the one shown below. *Explain how your empirical data does or does not conform to your expectations for the runtime complexity of `getRandomText()`.*
 
+setTraining(): O(T); This method calls String[].split(), which has linear runtime. Therefore, the entire method will have linear runtime in terms of T becuase the code loops through all of the words in the training text that's given as a parameter. 
+getRandomText(): O(N); This method impelements a few constant runtime O(1) functions as well as one for loop with linear runtime. However, this method will iterate for each of N words in the randomly generating text, giving it a runtime of O(N) rather than O(T).
+
+
 | Data file    | $`T`$    | $`N`$    | Training Time (s)    | Generating time (s)    |
 | ------------ | -------- | -------- | -------------------- | ---------------------- |
-| alice.txt    | 28,196   | 100      | 0.012                | 0.060                  |
-| ...          | ....     | ...      | ...                  | ...                    |
+| alice.txt    | 28,196   | 100      | 0.028                | 0.192                  |
+| hawthorne.txt| 85,753   | 1,000    | 0.099                | 2.970                  |
+| romeo.txt    | 25,788   | 10       | 0.042                | 0.064                  |
+| kjv10.txt    | 823,235  | 100      | 0.237                | 2.898                  |
+
+This data conforms to my expectations of the runtime of getRandomText() in some ways, but not others. I predicted that the runtime would be O(N), which is consistent with my data in that the longerst Training and Generating times by far came from the run with an N of 1,000 (in comparison to 10 and 100), and not from the run with the longest training text. However, I'm a bit confused by the implications of the recorded runtime for my trials with similar text sizes and different N values. The one with an N value of 10 was slower than the one with an N value of 100, which is inconsistent with my predictions. 
 
 *Suggestions*: You will likely get the clearest data if you include very different values for $`T`$ and $`N`$, and preferably larger values -- see the table of sizes above to help you choose text files you'll use. You can set $`N`$ directly to much larger values by changing `TEXT_SIZE`, for example to 1,000 or 10,000. When doing so, you can set `PRINT_MODE` to `false` in `MarkovDriver` to avoid having a large amount of text printed to your terminal. Note that `BaseMarkov` is not necessarily an efficient implementation, so it may take a long time to run with large $`T`$ and $`N`$. You do not need to run anything for multiple minutes just for data collection for this assignment.  
 
@@ -211,6 +219,18 @@ Same as Question 1, but for `HashMarkov` instead of `BaseMarkov`: What is the as
 
 You can use the same training texts and values for $`N`$ as you chose in question 1, with the same suggestions mentioned there. Note that, implemented correctly, `HashMarkov` should be noticably more efficient at generating random text than `BaseMarkov`, and this should be evident in your analysis.
 
+setTraining(): O(T); this method contains several constant runtime functions as well as one linear for loop that iterates over every word in the text file with length T. Therefore, its runtime will be O(T)
+getRandomText(): O(N); this method is exactly the same in the BaseMarkov and HashMarkov classes, so its runtime will stay consistent despite the differences elsewhere in the file. 
+
+| Data file    | $`T`$    | $`N`$    | Training Time (s)    | Generating time (s)    |
+| ------------ | -------- | -------- | -------------------- | ---------------------- |
+| alice.txt    | 28,196   | 100      | .142                 |.002                    |
+| hawthorne.txt| 85,753   | 1,000    | .277                 |.010                    |
+| romeo.txt    | 25,788   | 10       | .130                 |.002                    |
+| kjv10.txt    | 823,235  | 100      | 1.582                |.004                    |
+
+This time, my data does not appear to support my prediction that the runtime of getRandomText would be O(N) when looking at the Training time. Instead it seems to be representative of an O(T) runtime; the slowest runtime was that of the longest file, and the fastest of the smallest. However, the Generating time does seem to be more consistent with my predictions. The slowest runtime was that of the largest N value, and the fastest of the smallest N value. 
+
 ### Question 3
 
 Markov models like the one you implemented in this project are one example of a larger research area in artificial intelligence (AI) and machine learning (ML) called *generative models* for *natural language processing*. Currently, one of the state-of-the-art models is called *GPT*, created by [OpenAI](https://openai.com/about/). OpenAI states that their "mission is to ensure that artificial general intelligence (AGI)—...highly autonomous systems that outperform humans at most economically valuable work—benefits all of humanity." 
@@ -219,7 +239,12 @@ GPT is not, however, open-source, meaning that the underlying source code of the
 
 Answer both of the following related questions:
 - What do you think of OpenAI's stated mission? In particular, do you think that "highly autonomous systems that outperform humans at most economically valuable work" can benefit all of humanity? Why or why not?
+
+To be completely honest, I found the mission to be a bit unsettling. While I'm incredibly intruiged by the capabilities of GPT models and curious about the ways they could be used to improve the world we live in, outperforming humans being at the core of their goal feels apocalyptic. I would also argue that it's not right to claim that OpenAI models outperform humans when they were created by humans; it seems to me something of a much more complex chicken-and-egg argument. I know the concept of machine learning complicates this, but I still feel that an origin in humanity is significant. The concept of an open AI bot creating another open AI bot is where things get really interesting for me. I think that specific implementations of these "highly autonomous systems" to complete tasks for which they are unarguably more efficient than humans can be incredibly useful to all aspects of our society by allowing human labor and energy to be redirected to tasks for which it is essential. However, I believe that attempting to rely too heavily on OpenAI would eventually be detrimental to humanity. Relying on ChatGPT and similar models for innovation and creativity in essence atrifies those abilities among humans. I believe we should be very impressed by these models but not assume that they are superior to the human mind simply based on greater efficiency and immediate access to knowledge. 
+
 - Do you think new research code in AI/ML should be more open source? Why, or why not? 
+
+My immediate reaction is to say that new research code should definitely be more open source. Increasing access to thise type of code would only expand the capabilities of OpenAI, which I want to assume would be a good thing. However, there are, unfortunately, many people and/or groups who would likely use this access to expand the capabilities of OpenAI for malice. Hackers of all levels would be able to cause more damage to their targets, and as much as OpenAI access might help improve cybersecurity, it would likely also improve ways to get around cybersecurity measures. Thus, I feel the answer hangs in the balance. Limiting access to research code helps ensure that this code doesn't get into the hands of those who would use it the wrong ways, but it also ensures that it doesn't get into the hands of bright minds who might use it for incredible good. I don't know enough to know whether this is a possibility, but one possible solution could be to make certain aspects of research code open source while limiting the most sensitive portions.
 
 There is no right or wrong answer to either question; we are looking for one or two paragraphs of thoughtful reflection.
 
