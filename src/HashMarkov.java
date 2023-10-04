@@ -39,7 +39,9 @@ public class HashMarkov implements MarkovInterface {
         if (myMap.containsKey(wgram)){
             return myMap.get(wgram);
         }
+        else{
         return new ArrayList<String>();
+        }
     }
 
     private String getNextWord(WordGram wgram) {
