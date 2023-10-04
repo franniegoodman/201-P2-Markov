@@ -106,11 +106,11 @@ public class WordGram {
 		if (myWords.length > 0 && myToString.equals("")){
 			myToString = String.join(" ", myWords);
 		}
-		String newString = "";
-		for (int i = 1; i<myToString.length(); i++){
-			newString += myToString.charAt(i);
-		}
-		myToString = newString;
+		//String newString = "";
+		//for (int i = 1; i<myToString.length(); i++){
+		//	newString += myToString.charAt(i);
+		//}
+		//myToString = newString;
 		return myToString;
 	}
 
