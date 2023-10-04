@@ -44,7 +44,8 @@ public class HashMarkov implements MarkovInterface {
     private String getNextWord(WordGram wgram) {
 		List<String> follows = getFollows(wgram);
 		if (follows.size() == 0) {
-			return END_OF_TEXT;
+			int randomIndex = myRandom.nextInt(myWords.length);
+            return myWords[randomIndex];
 		}
 		else {
 			int randomIndex = myRandom.nextInt(follows.size());
